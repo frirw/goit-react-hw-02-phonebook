@@ -1,4 +1,37 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
+import styled from 'styled-components';
+
+const FormContainer = styled.form`
+  margin-top: 20px;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+`;
+
+const Label = styled.label`
+  margin-bottom: 5px;
+  color: white;
+  background-color: lightpink;
+`;
+
+const Input = styled.input`
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid gray;
+`;
+
+const SubmitButton = styled.button`
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: pink;
+  color: white;
+  border: none;
+  cursor: pointer;
+`;
 
 class ContactForm extends Component {
   state = {
@@ -8,6 +41,10 @@ class ContactForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    if (this.state.name.trim() === '' || this.state.number.trim() === '') {
+      alert('Please fill in both name and number fields.');
+      return;
+    }
     this.props.submit(this.state);
     this.reset();
   };
@@ -21,66 +58,34 @@ class ContactForm extends Component {
   };
 
   render() {
-    const mbStyle = {
-      display: 'flex',
-      flexDirection: 'column',
-      marginBottom: '5px',
-      backgroundColor: 'lightpink',
-      color: 'white',
-    };
-
-    const buttonStyle = {
-      backgroundColor: 'pink',
-      color: 'white',
-      padding: '10px',
-      borderRadius: '5px',
-      border: 'none',
-      cursor: 'pointer',
-    };
-
-    const inputStyle = {
-      color: 'black',
-      padding: '5px',
-      borderRadius: '3px',
-      border: '1px solid gray',
-    };
-
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="mb" style={mbStyle}>
-          <label htmlFor="Name" className="form-label">
-            Name
-          </label>
-          <input
-            style={inputStyle}
+      <FormContainer onSubmit={this.handleSubmit}>
+        <InputWrapper>
+          <Label htmlFor="Name">Name</Label>
+          <Input
             pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             required
             value={this.state.name}
             onChange={this.handleChange}
             name="name"
             type="text"
-            className="form-control"
             id="Name"
           />
-        </div>
-        <div className="mb" style={mbStyle}>
-          <label htmlFor="Number" className="form-label">
-            Number
-          </label>
-          <input
+        </InputWrapper>
+        <InputWrapper>
+          <Label htmlFor="Number">Number</Label>
+          <Input
             pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+            required
             value={this.state.number}
             onChange={this.handleChange}
             name="number"
-            type="number"
-            className="form-control"
+            type="tel"
             id="Number"
           />
-        </div>
-        <button style={buttonStyle} type="submit" className="btn btn-primary">
-          Add contact
-        </button>
-      </form>
+        </InputWrapper>
+        <SubmitButton type="submit">Add contact</SubmitButton>
+      </FormContainer>
     );
   }
 }

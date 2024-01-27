@@ -1,9 +1,17 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
-import css from './App.module.css';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin-right: auto;
+  margin-left: auto;
+`;
 
 class App extends Component {
   state = {
@@ -38,6 +46,7 @@ class App extends Component {
       contacts: prev.contacts.filter(el => el.id !== id),
     }));
   };
+
   handleSearchChange = e => {
     this.setState({ filter: e.target.value });
   };
@@ -47,8 +56,9 @@ class App extends Component {
     const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
+
     return (
-      <div className={css.Container}>
+      <Container>
         <h1>Phonebook</h1>
         <ContactForm submit={this.formSubmit} />
         <h2>Contacts</h2>
@@ -57,7 +67,7 @@ class App extends Component {
           deleteContact={this.deleteContact}
           contacts={filteredContacts}
         />
-      </div>
+      </Container>
     );
   }
 }

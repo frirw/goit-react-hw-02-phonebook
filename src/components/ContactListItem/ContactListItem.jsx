@@ -1,23 +1,32 @@
-export const ContactListItem = ({ data, deleteContact }) => {
-  const buttonStyle = {
-    backgroundColor: 'pink',
-    color: 'white',
-    borderRadius: '5px',
-    border: 'none',
-    cursor: 'pointer',
-  };
+import React from 'react';
+import styled from 'styled-components';
 
+const ListItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const Button = styled.button`
+  background-color: pink;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+`;
+
+export const ContactListItem = ({ data, deleteContact }) => {
   return (
-    <li key={data.id}>
-      {data.name} : {data.number}
-      <button
-        onClick={() => deleteContact(data.id)}
-        type="button"
-        style={buttonStyle}
-      >
-        {' '}
-        Delete{' '}
-      </button>
-    </li>
+    <ListItem key={data.id}>
+      <span>
+        {data.name} : {data.number}
+      </span>
+      <Button onClick={() => deleteContact(data.id)} type="button">
+        Delete
+      </Button>
+    </ListItem>
   );
 };
+
+export default ContactListItem;
